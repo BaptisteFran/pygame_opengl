@@ -1,6 +1,5 @@
-import pygame
-
 from settings import *
+from asteroid import Asteroid
 
 class Game:
     def __init__(self):
@@ -13,10 +12,22 @@ class Game:
         self.clock = pygame.time.Clock()
         self.running = True
 
+        # groups
+        self.all_sprites = pygame.sprite.Group()
+
         # font
         self.font = pygame.font.Font(None, 74)
         self.text = "00"
+        self.text2 = 0
         self.text_surface = self.font.render(self.text, True, WHITE)
+        self.text_surface2 = self.font.render(str(self.text2), True, WHITE)
+
+
+    def spawn_asteroid(self):
+        asteroid = Asteroid(randint(150, 1200), randint(-100, -40))
+        self.all_sprites.add(asteroid)
+        self.text2 += 1
+
 
     def new(self):
         self.run()
@@ -36,10 +47,15 @@ class Game:
     def update(self):
         self.text = "{:.2f}".format(self.clock.get_fps())
         self.text_surface = self.font.render(self.text, True, WHITE)  # Met à jour la surface du texte
+        self.spawn_asteroid()
+        self.text_surface2 = self.font.render(str(self.text2), True, WHITE)  # Met à jour la surface du texte
+        self.all_sprites.update()
 
     def draw(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.text_surface, (50, 250))
+        self.screen.blit(self.text_surface2, (50, 350))
+        self.all_sprites.draw(self.screen)
         if DISPLAY:
             pygame.display.flip()
         else:
