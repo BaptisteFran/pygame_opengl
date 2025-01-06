@@ -16,4 +16,4 @@ Ce projet est un test de jeu développé avec **Pygame-CE**. Il utilise le modul
 Pour installer Pygame-CE, exécutez :
 
 ```bash
-pip install pygame-ce
+pip install -r requirements.txt
