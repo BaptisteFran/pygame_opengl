@@ -1,10 +1,15 @@
+import pygame
+
 from settings import *
 
 class Game:
     def __init__(self):
         pygame.init()
-        self.window = pygame.Window(opengl=True, size=(WINDOW_WIDTH, WINDOW_HEIGHT), title="Test OpenGL with Window Module")
-        self.screen = self.window.get_surface()
+        if DISPLAY:
+            self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+        else:
+            self.window = pygame.Window(size=(WINDOW_WIDTH, WINDOW_HEIGHT), title="Test OpenGL with Window Module")
+            self.screen = self.window.get_surface()
         self.clock = pygame.time.Clock()
         self.running = True
 
@@ -35,9 +40,13 @@ class Game:
     def draw(self):
         self.screen.fill(BLACK)
         self.screen.blit(self.text_surface, (50, 250))
-        self.window.flip()
+        if DISPLAY:
+            pygame.display.flip()
+        else:
+            self.window.flip()
 
 if __name__ == "__main__":
     game = Game()
     game.new()
     pygame.quit()
+    raise SystemExit
